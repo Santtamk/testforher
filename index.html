@@ -74,6 +74,15 @@
             color: white;
             border-color: #0d9488;
         }
+
+        @keyframes loading-bar {
+            0% { transform: translateX(-100%); width: 30%; }
+            50% { width: 60%; }
+            100% { transform: translateX(250%); width: 30%; }
+        }
+        .animate-loading-bar {
+            animation: loading-bar 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
     </style>
     
     <!-- Chosen Palette: Warm Neutrals with Teal Accents (Stone & Teal) -->
@@ -82,8 +91,38 @@
          1. Overview Doughnut Chart (Chart.js): Goal - Show distribution of project focus areas. Interaction - Hover tooltips. Justification - Provides immediate context on where efforts are concentrated. 
          2. Filterable Grid (Vanilla JS + HTML): Goal - Organize individual project details. Interaction - Click filters to isolate categories. Justification - Fulfills the "minimum and concise" requirement by breaking data into digestible chunks based on user selection. NO SVG/Mermaid used. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-</head>
 <body class="min-h-screen pb-12">
+
+    <!-- Full-screen Premium Loader -->
+    <div id="loader-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-stone-950 text-white transition-all duration-500 ease-in-out">
+        <div class="text-center space-y-6 max-w-md px-6">
+            <!-- Elegant animated spinner -->
+            <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+                <!-- Rotating dashed circle -->
+                <div class="absolute inset-0 rounded-full border-4 border-dashed border-teal-500/30 animate-[spin_8s_linear_infinite]"></div>
+                <!-- Spinning colored border -->
+                <div class="absolute inset-0 rounded-full border-t-4 border-l-4 border-teal-500 animate-spin"></div>
+                <!-- Center glowing heartbeat dot with logo -->
+                <div class="w-10 h-10 bg-gradient-to-tr from-teal-500 to-teal-400 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(20,184,166,0.6)]">
+                    <span class="text-base">🇮🇳</span>
+                </div>
+            </div>
+            
+            <div class="space-y-3">
+                <!-- Loading text -->
+                <h2 class="text-xl font-bold tracking-wider text-stone-100 sm:text-2xl animate-pulse">
+                    please wait Prasanti while the information loads
+                </h2>
+                <!-- Subtitle with a small loading progress representation -->
+                <p class="text-sm text-stone-400 font-light tracking-wide">Preparing dashboard analytics and active projects directory...</p>
+            </div>
+            
+            <!-- Sleek progress line -->
+            <div class="w-48 h-1 bg-stone-900 rounded-full mx-auto overflow-hidden relative">
+                <div class="h-full bg-teal-500 rounded-full animate-loading-bar absolute left-0 top-0"></div>
+            </div>
+        </div>
+    </div>
 
     <nav class="bg-white border-b border-stone-200 sticky top-0 z-10 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -239,6 +278,17 @@
             renderFilters();
             renderProjects();
             initChart();
+
+            // Mandatory 2-second loader screen
+            setTimeout(() => {
+                const loader = document.getElementById('loader-overlay');
+                if (loader) {
+                    loader.classList.add('opacity-0', 'pointer-events-none');
+                    setTimeout(() => {
+                        loader.remove();
+                    }, 500);
+                }
+            }, 2000);
         });
 
         // Unique categories from data
