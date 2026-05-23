@@ -1,97 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Active Govt Health Projects - India 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        stone: {
-                            50: '#fafaf9',
-                            100: '#f5f5f4',
-                            200: '#e7e5e4',
-                            700: '#44403c',
-                            800: '#292524',
-                            900: '#1c1917',
-                        },
-                        teal: {
-                            50: '#f0fdfa',
-                            100: '#ccfbf1',
-                            600: '#0d9488',
-                            700: '#0f766e',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              stone: {
+                50: "#fafaf9",
+                100: "#f5f5f4",
+                200: "#e7e5e4",
+                700: "#44403c",
+                800: "#292524",
+                900: "#1c1917",
+              },
+              teal: {
+                50: "#f0fdfa",
+                100: "#ccfbf1",
+                600: "#0d9488",
+                700: "#0f766e",
+              },
+            },
+            fontFamily: {
+              sans: [
+                "Segoe UI",
+                "Roboto",
+                "Helvetica Neue",
+                "Arial",
+                "sans-serif",
+              ],
+            },
+          },
+        },
+      };
     </script>
     <style>
-        body {
-            background-color: #fafaf9;
-            color: #292524;
-            -webkit-font-smoothing: antialiased;
-        }
-        
+      body {
+        background-color: #fafaf9;
+        color: #292524;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 280px;
+        max-height: 350px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      @media (min-width: 768px) {
         .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 280px;
-            max-height: 350px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+          height: 320px;
         }
-        
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 320px;
-            }
-        }
+      }
 
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-color: #0d9488;
-        }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
 
-        .filter-btn.active {
-            background-color: #0d9488;
-            color: white;
-            border-color: #0d9488;
-        }
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow:
+          0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        border-color: #0d9488;
+      }
 
-        @keyframes loading-bar {
-            0% { transform: translateX(-100%); width: 30%; }
-            50% { width: 60%; }
-            100% { transform: translateX(250%); width: 30%; }
-        }
-        .animate-loading-bar {
-            animation: loading-bar 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }
+      .filter-btn.active {
+        background-color: #0d9488;
+        color: white;
+        border-color: #0d9488;
+      }
+
+      @keyframes loading-bar {
+        0% { transform: translateX(-100%); width: 30%; }
+        50% { width: 60%; }
+        100% { transform: translateX(250%); width: 30%; }
+      }
+      .animate-loading-bar {
+        animation: loading-bar 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
     </style>
-    
+
     <!-- Chosen Palette: Warm Neutrals with Teal Accents (Stone & Teal) -->
     <!-- Application Structure Plan: The SPA is divided into two main sections: a 'Dashboard Overview' providing a high-level statistical breakdown of project categories using a doughnut chart, and a 'Project Explorer' featuring filterable cards. This structure was chosen because it allows users to first grasp the macro-level focus of government health spending, and then easily drill down into specific projects based on their area of interest (Insurance, Digital, etc.) without overwhelming them with text immediately. -->
     <!-- Visualization & Content Choices: 
          1. Overview Doughnut Chart (Chart.js): Goal - Show distribution of project focus areas. Interaction - Hover tooltips. Justification - Provides immediate context on where efforts are concentrated. 
          2. Filterable Grid (Vanilla JS + HTML): Goal - Organize individual project details. Interaction - Click filters to isolate categories. Justification - Fulfills the "minimum and concise" requirement by breaking data into digestible chunks based on user selection. NO SVG/Mermaid used. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-<body class="min-h-screen pb-12">
+  </head>
+  <body class="min-h-screen pb-12">
 
     <!-- Full-screen Premium Loader -->
     <div id="loader-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-stone-950 text-white transition-all duration-500 ease-in-out">
@@ -125,223 +134,280 @@
     </div>
 
     <nav class="bg-white border-b border-stone-200 sticky top-0 z-10 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl">🇮🇳</span>
-                    <span class="font-bold text-xl text-stone-800 tracking-tight">India Health Vision 2026</span>
-                </div>
-                <div class="text-sm font-medium text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-100">
-                    Active Directory
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🇮🇳</span>
+            <span class="font-bold text-xl text-stone-800 tracking-tight"
+              >India Health Vision 2026</span
+            >
+          </div>
+          <div
+            class="text-sm font-medium text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-100"
+          >
+            Active Directory
+          </div>
         </div>
+      </div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-12">
-
-        <section id="overview-section" class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-stone-200">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <h1 class="text-3xl font-extrabold text-stone-900 mb-4 tracking-tight">Active Government Health Projects</h1>
-                    <p class="text-stone-600 mb-6 leading-relaxed">
-                        This section provides a high-level overview of the major healthcare initiatives actively funded and managed by the Government of India in 2026. The initiatives are categorized to highlight the strategic focus areas, ranging from universal health coverage to digital infrastructure. The chart visualizes the distribution of these active flagship programs.
-                    </p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
-                            <div class="text-3xl font-black text-teal-600" id="total-projects">0</div>
-                            <div class="text-sm text-stone-500 font-medium mt-1">Flagship Projects</div>
-                        </div>
-                        <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
-                            <div class="text-3xl font-black text-teal-600">Pan-India</div>
-                            <div class="text-sm text-stone-500 font-medium mt-1">Coverage Scope</div>
-                        </div>
-                    </div>
+      <section
+        id="overview-section"
+        class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-stone-200"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h1
+              class="text-3xl font-extrabold text-stone-900 mb-4 tracking-tight"
+            >
+              Active Government Health Projects
+            </h1>
+            <p class="text-stone-600 mb-6 leading-relaxed">
+              This section provides a high-level overview of the major
+              healthcare initiatives actively funded and managed by the
+              Government of India in 2026. The initiatives are categorized to
+              highlight the strategic focus areas, ranging from universal health
+              coverage to digital infrastructure. The chart visualizes the
+              distribution of these active flagship programs.
+            </p>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                <div
+                  class="text-3xl font-black text-teal-600"
+                  id="total-projects"
+                >
+                  0
                 </div>
-                
-                <div class="w-full flex flex-col items-center">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-stone-400 mb-2">Initiative Distribution by Category</h3>
-                    <div class="chart-container">
-                        <canvas id="categoryChart"></canvas>
-                    </div>
+                <div class="text-sm text-stone-500 font-medium mt-1">
+                  Flagship Projects
                 </div>
-            </div>
-        </section>
-
-        <section id="explorer-section">
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold text-stone-900 mb-2">Project Explorer</h2>
-                <p class="text-stone-600 mb-6">
-                    Browse the concise directory of active health schemes below. Use the category filters to narrow down the list based on specific healthcare sectors such as infrastructure development or public health campaigns.
-                </p>
-                
-                <div class="flex flex-wrap gap-2" id="filter-container">
-                    <!-- Filters injected via JS -->
+              </div>
+              <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                <div class="text-3xl font-black text-teal-600">Pan-India</div>
+                <div class="text-sm text-stone-500 font-medium mt-1">
+                  Coverage Scope
                 </div>
+              </div>
             </div>
+          </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
-                <!-- Project cards injected via JS -->
+          <div class="w-full flex flex-col items-center">
+            <h3
+              class="text-sm font-bold uppercase tracking-wider text-stone-400 mb-2"
+            >
+              Initiative Distribution by Category
+            </h3>
+            <div class="chart-container">
+              <canvas id="categoryChart"></canvas>
             </div>
-            
-            <div id="no-results" class="hidden text-center py-12 bg-white rounded-2xl border border-stone-200">
-                <div class="text-4xl mb-3">🔍</div>
-                <h3 class="text-lg font-medium text-stone-900">No projects found</h3>
-                <p class="text-stone-500">Try selecting a different category.</p>
-            </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
+      <section id="explorer-section">
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-stone-900 mb-2">
+            Project Explorer
+          </h2>
+          <p class="text-stone-600 mb-6">
+            Browse the concise directory of active health schemes below. Use the
+            category filters to narrow down the list based on specific
+            healthcare sectors such as infrastructure development or public
+            health campaigns.
+          </p>
+
+          <div class="flex flex-wrap gap-2" id="filter-container">
+            <!-- Filters injected via JS -->
+          </div>
+        </div>
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          id="projects-grid"
+        >
+          <!-- Project cards injected via JS -->
+        </div>
+
+        <div
+          id="no-results"
+          class="hidden text-center py-12 bg-white rounded-2xl border border-stone-200"
+        >
+          <div class="text-4xl mb-3">🔍</div>
+          <h3 class="text-lg font-medium text-stone-900">No projects found</h3>
+          <p class="text-stone-500">Try selecting a different category.</p>
+        </div>
+      </section>
     </main>
 
     <script>
-        const healthProjectsData = [
-            {
-                id: "pmjay",
-                title: "Ayushman Bharat PM-JAY",
-                category: "Insurance",
-                startDate: "September 2018",
-                icon: "🏥",
-                benefits: "Health cover of ₹5 Lakhs per family per year for secondary and tertiary care hospitalization.",
-                covered: "Medical consultation, treatment, diagnostics, medicines, and 15 days post-hospitalization care. Cashless and paperless access."
-            },
-            {
-                id: "nhm",
-                title: "National Health Mission (NHM)",
-                category: "Public Health",
-                startDate: "May 2013",
-                icon: "🩺",
-                benefits: "Universal access to equitable, affordable, and quality healthcare services.",
-                covered: "Maternal & child health, communicable & non-communicable diseases, health system strengthening in rural and urban areas."
-            },
-            {
-                id: "abdm",
-                title: "Ayushman Bharat Digital Mission",
-                category: "Digital",
-                startDate: "September 2021",
-                icon: "📱",
-                benefits: "Creation of a seamless online platform to connect digital health solutions across hospitals and citizens.",
-                covered: "Ayushman Bharat Health Account (ABHA) ID, Healthcare Professionals Registry, Health Facility Registry, Personal Health Records (PHR)."
-            },
-            {
-                id: "pmabhim",
-                title: "PM-ABHIM",
-                category: "Infrastructure",
-                startDate: "October 2021",
-                icon: "🏗️",
-                benefits: "Fills critical gaps in public health infrastructure, especially in critical care facilities and primary care in urban/rural areas.",
-                covered: "Integrated public health labs, critical care hospital blocks, support for health and wellness centers, disease surveillance systems."
-            },
-            {
-                id: "ntep",
-                title: "National TB Elimination Programme",
-                category: "Disease Control",
-                startDate: "1997 (Ongoing Focus)",
-                icon: "🫁",
-                benefits: "Aims to eliminate Tuberculosis. Provides free diagnosis, treatment, and financial nutritional support (Ni-kshay Poshan Yojana).",
-                covered: "Sputum smear microscopy, molecular testing (CBNAAT/TrueNat), first and second-line anti-TB drugs, ₹500/month nutritional incentive."
-            },
-            {
-                id: "pmndp",
-                title: "PM National Dialysis Programme",
-                category: "Public Health",
-                startDate: "April 2016",
-                icon: "🩸",
-                benefits: "Provision of free dialysis services to Below Poverty Line (BPL) patients.",
-                covered: "Hemodialysis and Peritoneal dialysis services primarily established at District Hospitals via Public-Private Partnership (PPP)."
-            },
-            {
-                id: "mi",
-                title: "Mission Indradhanush",
-                category: "Public Health",
-                startDate: "December 2014",
-                icon: "💉",
-                benefits: "Ensures high coverage of routine immunization for children and pregnant women, targeting hard-to-reach areas.",
-                covered: "Vaccination against 12 vaccine-preventable diseases (Diphtheria, Pertussis, Tetanus, Polio, Measles, Rubella, severe form of Childhood Tuberculosis, Hepatitis B, Meningitis, Pneumonia, Haemophilus Influenzae type B, Japanese Encephalitis)."
-            },
-            {
-                id: "pmssy",
-                title: "Pradhan Mantri Swasthya Suraksha Yojana",
-                category: "Infrastructure",
-                startDate: "March 2006",
-                icon: "🏫",
-                benefits: "Correcting regional imbalances in the availability of affordable/reliable tertiary healthcare services.",
-                covered: "Setting up of new AIIMS-like institutions and the upgrading of existing Government Medical Colleges/Institutes."
+      const healthProjectsData = [
+        {
+          id: "swasthya-sathi",
+          title: "Swasthya Sathi (West Bengal)",
+          category: "Insurance",
+          startDate: "December 2016",
+          icon: "🏥",
+          benefits:
+            "Universal health cover of ₹5 Lakhs per family per year for all residents of West Bengal.",
+          covered:
+            "100% cashless treatment for secondary and tertiary care. Covers all pre-existing diseases with no cap on family size. Issued in the name of the eldest female family member.",
+        },
+        {
+          id: "pmjay",
+          title: "Ayushman Bharat PM-JAY",
+          category: "Insurance",
+          startDate: "September 2018",
+          icon: "🛡️",
+          benefits:
+            "National health cover of ₹5 Lakhs per family per year for secondary and tertiary care hospitalization.",
+          covered:
+            "Medical consultation, treatment for almost all diseases, diagnostics, medicines, and 15 days post-hospitalization care. Cashless and paperless access across India.",
+        },
+        {
+          id: "jssk",
+          title: "Janani Shishu Suraksha Karyakram",
+          category: "Maternal Health",
+          startDate: "June 2011",
+          icon: "🤰",
+          benefits:
+            "Zero out-of-pocket expenses for pregnant women delivering in public health institutions.",
+          covered:
+            "Completely free delivery (including Caesarean section), free drugs, diagnostics, blood, diet, and two-way transport for pregnant women and sick infants (up to 1 year).",
+        },
+        {
+          id: "pmmvy",
+          title: "Pradhan Mantri Matru Vandana",
+          category: "Maternal Health",
+          startDate: "January 2017",
+          icon: "🤱",
+          benefits:
+            "Direct Benefit Transfer (DBT) cash incentive for pregnant women and lactating mothers.",
+          covered:
+            "₹5,000 cash incentive (transferred in 3 installments) directly to bank accounts to partially compensate for wage loss and ensure proper maternal nutrition.",
+        },
+        {
+          id: "suman",
+          title: "Surakshit Matritva Aashwasan",
+          category: "Maternal Health",
+          startDate: "October 2019",
+          icon: "👩‍🍼",
+          benefits:
+            "Assured, dignified, respectful and quality healthcare at no cost for maternal and newborn health.",
+          covered:
+            "Focuses on zero preventable maternal/newborn deaths. Includes 4 free antenatal checks, iron/folic acid supplementation, and tetanus diphtheria injections.",
+        },
+        {
+          id: "ran",
+          title: "Rashtriya Arogya Nidhi",
+          category: "Comprehensive Care",
+          startDate: "1997",
+          icon: "❤️‍🩹",
+          benefits:
+            "Financial assistance to BPL patients suffering from major, life-threatening diseases.",
+          covered:
+            "One-time financial grant for medical treatment at super-specialty Government hospitals for severe illnesses like cancer, rare diseases, and requiring major surgeries.",
+        },
+        {
+          id: "nhm",
+          title: "National Health Mission (NHM)",
+          category: "Public Health",
+          startDate: "May 2013",
+          icon: "🩺",
+          benefits:
+            "Universal access to equitable, affordable, and quality healthcare services.",
+          covered:
+            "Broad coverage including maternal & child health, all communicable & non-communicable diseases, and health system strengthening in both rural and urban sectors.",
+        },
+        {
+          id: "mi",
+          title: "Mission Indradhanush",
+          category: "Public Health",
+          startDate: "December 2014",
+          icon: "💉",
+          benefits:
+            "Ensures high coverage of routine immunization for children and pregnant women.",
+          covered:
+            "Vaccination against 12 major vaccine-preventable diseases including Polio, Measles, Rubella, Tuberculosis, Hepatitis B, Meningitis, and Pneumonia.",
+        },
+      ];
+
+      let currentFilter = "All";
+      let overviewChart = null;
+
+      // Initialization
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("total-projects").textContent =
+          healthProjectsData.length;
+        renderFilters();
+        renderProjects();
+        initChart();
+
+        // Mandatory 2-second loader screen
+        setTimeout(() => {
+            const loader = document.getElementById('loader-overlay');
+            if (loader) {
+                loader.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    loader.remove();
+                }, 500);
             }
-        ];
+        }, 2000);
+      });
 
-        let currentFilter = 'All';
-        let overviewChart = null;
+      // Unique categories from data
+      function getCategories() {
+        const categories = new Set(healthProjectsData.map((p) => p.category));
+        return ["All", ...Array.from(categories)];
+      }
 
-        // Initialization
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('total-projects').textContent = healthProjectsData.length;
-            renderFilters();
-            renderProjects();
-            initChart();
+      // Render Filter Buttons
+      function renderFilters() {
+        const container = document.getElementById("filter-container");
+        const categories = getCategories();
 
-            // Mandatory 2-second loader screen
-            setTimeout(() => {
-                const loader = document.getElementById('loader-overlay');
-                if (loader) {
-                    loader.classList.add('opacity-0', 'pointer-events-none');
-                    setTimeout(() => {
-                        loader.remove();
-                    }, 500);
-                }
-            }, 2000);
-        });
-
-        // Unique categories from data
-        function getCategories() {
-            const categories = new Set(healthProjectsData.map(p => p.category));
-            return ['All', ...Array.from(categories)];
-        }
-
-        // Render Filter Buttons
-        function renderFilters() {
-            const container = document.getElementById('filter-container');
-            const categories = getCategories();
-            
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = `filter-btn px-4 py-2 rounded-full text-sm font-medium border border-stone-300 text-stone-600 hover:bg-stone-100 transition-colors ${cat === currentFilter ? 'active' : ''}`;
-                btn.textContent = cat;
-                btn.onclick = () => {
-                    currentFilter = cat;
-                    document.querySelectorAll('.filter-btn').forEach(b => {
-                        b.classList.remove('active');
-                        if(b.textContent === cat) b.classList.add('active');
-                    });
-                    renderProjects();
-                };
-                container.appendChild(btn);
+        categories.forEach((cat) => {
+          const btn = document.createElement("button");
+          btn.className = `filter-btn px-4 py-2 rounded-full text-sm font-medium border border-stone-300 text-stone-600 hover:bg-stone-100 transition-colors ${cat === currentFilter ? "active" : ""}`;
+          btn.textContent = cat;
+          btn.onclick = () => {
+            currentFilter = cat;
+            document.querySelectorAll(".filter-btn").forEach((b) => {
+              b.classList.remove("active");
+              if (b.textContent === cat) b.classList.add("active");
             });
+            renderProjects();
+          };
+          container.appendChild(btn);
+        });
+      }
+
+      // Render Project Cards
+      function renderProjects() {
+        const grid = document.getElementById("projects-grid");
+        const noResults = document.getElementById("no-results");
+        grid.innerHTML = "";
+
+        const filteredData =
+          currentFilter === "All"
+            ? healthProjectsData
+            : healthProjectsData.filter((p) => p.category === currentFilter);
+
+        if (filteredData.length === 0) {
+          grid.classList.add("hidden");
+          noResults.classList.remove("hidden");
+          return;
         }
 
-        // Render Project Cards
-        function renderProjects() {
-            const grid = document.getElementById('projects-grid');
-            const noResults = document.getElementById('no-results');
-            grid.innerHTML = '';
-            
-            const filteredData = currentFilter === 'All' 
-                ? healthProjectsData 
-                : healthProjectsData.filter(p => p.category === currentFilter);
+        grid.classList.remove("hidden");
+        noResults.classList.add("hidden");
 
-            if (filteredData.length === 0) {
-                grid.classList.add('hidden');
-                noResults.classList.remove('hidden');
-                return;
-            }
+        filteredData.forEach((project) => {
+          const card = document.createElement("div");
+          card.className =
+            "bg-white rounded-xl p-6 border border-stone-200 card-hover flex flex-col h-full";
 
-            grid.classList.remove('hidden');
-            noResults.classList.add('hidden');
-
-            filteredData.forEach(project => {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-xl p-6 border border-stone-200 card-hover flex flex-col h-full';
-                
-                card.innerHTML = `
+          card.innerHTML = `
                     <div class="flex justify-between items-start mb-4">
                         <div class="text-3xl bg-stone-50 h-12 w-12 flex items-center justify-center rounded-lg border border-stone-100">${project.icon}</div>
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 text-stone-800">
@@ -368,81 +434,83 @@
                         </div>
                     </div>
                 `;
-                grid.appendChild(card);
-            });
-        }
+          grid.appendChild(card);
+        });
+      }
 
-        // Initialize Chart.js Doughnut Chart
-        function initChart() {
-            const ctx = document.getElementById('categoryChart').getContext('2d');
-            
-            // Calculate category frequencies
-            const catCounts = {};
-            healthProjectsData.forEach(p => {
-                catCounts[p.category] = (catCounts[p.category] || 0) + 1;
-            });
+      // Initialize Chart.js Doughnut Chart
+      function initChart() {
+        const ctx = document.getElementById("categoryChart").getContext("2d");
 
-            const labels = Object.keys(catCounts);
-            const data = Object.values(catCounts);
+        // Calculate category frequencies
+        const catCounts = {};
+        healthProjectsData.forEach((p) => {
+          catCounts[p.category] = (catCounts[p.category] || 0) + 1;
+        });
 
-            const colors = [
-                '#0d9488', // Teal 600
-                '#a8a29e', // Stone 400
-                '#14b8a6', // Teal 500
-                '#57534e', // Stone 600
-                '#ccfbf1'  // Teal 100
-            ];
+        const labels = Object.keys(catCounts);
+        const data = Object.values(catCounts);
 
-            overviewChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: colors,
-                        borderWidth: 2,
-                        borderColor: '#ffffff',
-                        hoverOffset: 4
-                    }]
+        const colors = [
+          "#0d9488", // Teal 600
+          "#a8a29e", // Stone 400
+          "#14b8a6", // Teal 500
+          "#57534e", // Stone 600
+          "#ccfbf1", // Teal 100
+        ];
+
+        overviewChart = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                data: data,
+                backgroundColor: colors,
+                borderWidth: 2,
+                borderColor: "#ffffff",
+                hoverOffset: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "65%",
+            plugins: {
+              legend: {
+                position: "right",
+                labels: {
+                  usePointStyle: true,
+                  padding: 20,
+                  font: {
+                    family: "'Segoe UI', sans-serif",
+                    size: 12,
+                  },
+                  color: "#44403c",
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '65%',
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                usePointStyle: true,
-                                padding: 20,
-                                font: {
-                                    family: "'Segoe UI', sans-serif",
-                                size: 12
-                                },
-                                color: '#44403c'
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: '#292524',
-                            padding: 12,
-                            cornerRadius: 8,
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed + ' Project(s)';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
+              },
+              tooltip: {
+                backgroundColor: "#292524",
+                padding: 12,
+                cornerRadius: 8,
+                callbacks: {
+                  label: function (context) {
+                    let label = context.label || "";
+                    if (label) {
+                      label += ": ";
                     }
-                }
-            });
-        }
+                    if (context.parsed !== null) {
+                      label += context.parsed + " Project(s)";
+                    }
+                    return label;
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
     </script>
-</body>
+  </body>
 </html>
